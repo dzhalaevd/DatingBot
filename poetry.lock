@@ -1508,14 +1508,14 @@ files = [
 
 [[package]]
 name = "pip"
-version = "23.3.2"
+version = "26.0"
 description = "The PyPA recommended tool for installing Python packages."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "pip-23.3.2-py3-none-any.whl", hash = "sha256:5052d7889c1f9d05224cd41741acb7c5d6fa735ab34e339624a614eaaa7e7d76"},
-    {file = "pip-23.3.2.tar.gz", hash = "sha256:7fd9972f96db22c8077a1ee2691b172c8089b17a5652a44494a9ecb0d78f9149"},
+    {file = "pip-26.0-py3-none-any.whl", hash = "sha256:98436feffb9e31bc9339cf369fd55d3331b1580b6a6f1173bacacddcf9c34754"},
+    {file = "pip-26.0.tar.gz", hash = "sha256:3ce220a0a17915972fbf1ab451baae1521c4539e778b28127efa79b974aff0fa"},
 ]
 
 [[package]]
@@ -2402,4 +2402,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "7b8ccf81efa5f306de213446f2c3290ae238eb0b3571e6e749f9701865d6aefc"
+content-hash = "1703238caea530a7c050054442b4c97960d9cf58d902f9ebc467dbfb97de3905"
