@@ -5,17 +5,14 @@
 
 
 <!--suppress HtmlDeprecatedAttribute -->
-<h2 align="center">DatingBot</h2>
+<h2 align="center">Make Dating Free Again</h2>
 
 ### :monocle_face: About
 
 | 🏗️ The project has moved elsewhere, and currently available at [que.group](https://github.com/QueGroup) |
 |----------------------------------------------------------------------------------------------------------|
 
-Open-source Dating Telegram bot built on aiogram 2.x to facilitate the search for new connections. The bot incorporates
-a classic profile browsing system, along with filtering options and event organization capabilities. Users can create
-and join events, fostering community engagement. Additionally, the project is closely integrated with neural networks,
-enhancing its capabilities.
+Sounds of crickets and tumbleweeds 🏜
 
 ### :alembic: Built With
 
