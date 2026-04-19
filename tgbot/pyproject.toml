@@ -1,0 +1,96 @@
+[project]
+name = "tgbot"
+version = "1.0.0"
+description = "Dating Telegram Bot with open source code"
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+license = "Attribution-NonCommercial 3.0 Unported"
+authors = [
+    { name = "David Dzhalaev", email = "72649244+DavidRomanovizc@users.noreply.github.com" }
+]
+dependencies = [
+    "fastapi==0.136.0",
+    "aiogram==3.27.0",
+    "environs==15.0.1",
+    "asyncpg==0.31.0",
+    "better-profanity>=0.7.0,<0.8.0",
+    "aiohttp==3.13.5",
+    "async-lru==2.0.4",
+    "apscheduler==3.10.4",
+    "nudenet==3.0.8",
+    "yarl==1.23.0",
+    "aiofiles==23.2.1",
+    "pydantic==2.12.5",
+    "redis==5.0.1",
+    "structlog==25.5.0",
+    "testresources>=2.0.1,<3.0.0",
+    "orjson==3.11.8",
+    "aiohttp-socks>=0.11.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==7.4.4",
+    "pytest-asyncio==0.23.3",
+    "telethon==1.43.1",
+    "pre-commit==3.6.0",
+    "flake8==7.0.0",
+    "black==23.12.1",
+    "mypy>=1.8.0,<2.0.0",
+    "isort>=5.13.2,<6.0.0",
+    "deptry>=0.12.0,<0.13.0",
+    "ruff>=0.1.14,<0.2.0",
+    "pip-audit>=2.7.0,<3.0.0",
+]
+
+[tool.black]
+line-length = 99
+exclude = [
+    "venv",
+    "django_project/telegrambot/common/migrations",
+    "django_project/telegrambot/usersmanage/migrations",
+    ".git",
+]
+target-version = ["py311"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+ignore_missing_imports = true
+strict_optional = false
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+warn_redundant_casts = true
+warn_unused_configs = true
+strict_equality = true
+
+[tool.isort]
+profile = "black"
+force_grid_wrap = 1
+multi_line_output = 3
+honor_noqa = true
+float_to_top = true
+combine_as_imports = true
+force_sort_within_sections = true
+include_trailing_comma = true
+line_length = 99
+use_parentheses = true
+known_third_party = ["django", "rest_framework_extensions", "aiogram"]
+known_first_party = ["common", "usersmanage"]
+skip = ["__init__.py", "app.py"]
+
+[tool.ruff]
+line-length = 99
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"**/{tests,docs,tools,migrations}/*" = ["F401"]
+
+[tool.deptry]
+ignore = ["DEP002"]
+
+[tool.uv]
+package = false
