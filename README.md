@@ -30,7 +30,7 @@ enhancing its capabilities.
 
 ### :hammer: Development
 
-Find the instructions for running the app locally in the [Development Guide](docs/DEVELOPMENT.md)
+Find the instructions for running the app locally in the [Development Guide](DEVELOPMENT.md)
 
 ### :busts_in_silhouette: Contributing
 
