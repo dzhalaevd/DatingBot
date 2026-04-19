@@ -131,6 +131,4 @@ dmypy.json
 .idea/*
 .env
 
-# Django Settings with Secret key
-/django_project/django_project/settings.py
-photos/
+.proxy_cache.json
