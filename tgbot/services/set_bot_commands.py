@@ -1,40 +1,25 @@
 import logging
 
 from aiogram import (
-    Dispatcher,
+    Bot,
     types,
-)
-
-from data.config import (
-    load_config,
 )
 
 
 async def set_user_commands(
-        dp: Dispatcher, user_id: int, commands: list[types.BotCommand]
-):
+        bot: Bot, user_id: int, commands: list[types.BotCommand]
+) -> None:
     try:
-        await dp.bot.set_my_commands(
-            commands=commands, scope=types.BotCommandScopeChat(user_id)
+        await bot.set_my_commands(
+            commands=commands, scope=types.BotCommandScopeChat(chat_id=user_id)
         )
     except Exception as ex:
         logging.error(f"{user_id}: Commands are not installed. {ex}")
 
 
-async def set_default_commands(dp: Dispatcher) -> None:
+async def set_default_commands(bot: Bot, admin_ids: list[int]) -> None:
     default_commands = [
-        types.BotCommand("start", "🟢 Запустить бота"),
+        types.BotCommand(command="start", description="🟢 Запустить бота"),
     ]
 
-    admin_commands = [
-        types.BotCommand("admin", "⚒ Админ-Меню"),
-        types.BotCommand("users", "🫂 Пользователи"),
-        types.BotCommand("settings", "⚙️ Настройки"),
-        types.BotCommand("ad", "📊 Реклама"),
-        types.BotCommand("logs", "🗒 Логи"),
-    ]
-
-    await dp.bot.set_my_commands(default_commands, scope=types.BotCommandScopeDefault())
-
-    for admin_id in load_config().tg_bot.admin_ids:
-        await set_user_commands(dp, admin_id, admin_commands + default_commands)
+    await bot.set_my_commands(default_commands, scope=types.BotCommandScopeDefault())

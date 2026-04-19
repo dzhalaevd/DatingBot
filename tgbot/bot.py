@@ -3,7 +3,7 @@ import asyncio
 from tgbot.config import Config
 from tgbot.presentation.handlers.v2 import routers_list
 from tgbot.proxy_pool import create_aiogram_session
-from tgbot.services import broadcaster
+
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.base import BaseStorage
 from aiogram.fsm.storage.memory import (
@@ -16,6 +16,8 @@ from aiogram.fsm.storage.redis import (
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
+from tgbot.services import broadcaster, set_default_commands
+
 defaults = DefaultBotProperties(
     parse_mode=ParseMode.HTML,
     protect_content=True,
@@ -25,6 +27,7 @@ defaults = DefaultBotProperties(
 
 async def on_startup(bot: Bot, admin_ids: list[int]) -> None:
     await broadcaster.broadcast(bot, admin_ids, "Бот был запущен")
+    await set_default_commands(bot, admin_ids)
 
 
 async def on_shutdown(bot: Bot) -> None:
