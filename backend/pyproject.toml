@@ -1,0 +1,24 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = ""
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi==0.136.0",
+    "uvicorn[standard]==0.34.2",
+    "sqlalchemy==2.0.40",
+    "psycopg[binary]==3.2.7",
+    "pydantic-settings==2.9.1",
+    "python-multipart==0.0.20",
+    "structlog>=25.5.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==7.4.4",
+    "pytest-asyncio==0.23.3",
+    "pre-commit==3.6.0",
+]
+
+[tool.uv]
+package = false

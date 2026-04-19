@@ -1,0 +1,43 @@
+target-version = "py311"
+line-length = 120 # Максимальная длина строки для кода
+
+src = ["."]
+
+[lint]
+ignore = [
+    "E302", # Конфликтует с formatter
+    "E203", # Конфликтует с formatter
+    "D100", # Missing docstring in public module
+    "D103", # Missing docstring in public function
+    "D104", # Missing docstring in public package
+    "D203", # Конфликтует с D211
+    "B024", # Осознанно допускается базовый класс без абстрактных методов
+    "PLR0913", # Too many arguments in function
+    "COM812", # Конфликтует с formatter
+    "C408", # Неоптимальное создание dict/list через конструктор вместо литерала
+    "RUF001", # Разрешаем кириллицу в коде/докстрингах
+    "RUF002", # Разрешаем русский язык
+    "RUF003", # Разрешаем русский язык
+    "S110", # try-except-pass
+]
+select = ["ALL"]
+exclude = [
+    "tests/**",
+    "migrations/**"
+]
+
+# Настройки форматтера
+[format]
+quote-style = "double"
+indent-style = "space"
+
+[lint.isort]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+no-lines-before = [] # убрать лишние пустые строки перед секциями
+combine-as-imports = true
+known-third-party = [
+    "pydantic",
+    "redis",
+    "fastapi",
+    "httpx",
+]
