@@ -170,26 +170,3 @@ async def logout(
     JWTService.unset_cookies(
         response=response,
     )
-
-
-@auth_router.post(
-    "/send-otp-code/",
-    summary="Send otp code",
-    status_code=status.HTTP_200_OK,
-)
-async def send_otp_code(user_in: dto.UserLoginWithOTP) -> None:
-    pass
-
-
-@auth_router.post(
-    "/confirm-otp-code/",
-    response_model=dto.JWTokens,
-    summary="Confirm otp code and write out the code",
-    status_code=status.HTTP_200_OK,
-)
-async def confirm_otp_code(
-        otp_in: dto.ConfirmOtp,
-        request: Request,
-        response: Response,
-) -> None:
-    pass
