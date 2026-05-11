@@ -1,6 +1,6 @@
 import asyncio
 
-from bot import create_bot, create_dispatcher, on_startup, on_shutdown
+from bot import create_bot, create_dispatcher, on_shutdown, on_startup
 from config import load_config
 from infra.logging import configure_logging
 

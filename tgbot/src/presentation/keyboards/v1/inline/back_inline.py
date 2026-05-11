@@ -4,8 +4,6 @@ from aiogram.types import (
 )
 
 
-
-
 def only_back_keyboard(menu: str = "start_menu") -> InlineKeyboardMarkup:
     markup = InlineKeyboardMarkup()
     back = InlineKeyboardButton(text=_("⏪️ Вернуться в меню"), callback_data=menu)

@@ -13,7 +13,6 @@ from fastapi import (
     Response,
     status,
 )
-
 from src.application.services import (
     AuthService,
 )
@@ -53,8 +52,8 @@ auth_router = APIRouter()
 )
 @inject
 async def signup(
-        user_in: dto.UserRegistration,
-        auth_service: AuthService = Depends(Provide[Container.auth_service]),
+    user_in: dto.UserRegistration,
+    auth_service: AuthService = Depends(Provide[Container.auth_service]),
 ) -> models.User:
     try:
         return await auth_service.signup(user_in=user_in)
@@ -71,8 +70,8 @@ async def signup(
 )
 @inject
 async def signin_telegram(
-        user_in: dto.UserTMELogin,
-        auth_service: AuthService = Depends(Provide[Container.auth_service]),
+    user_in: dto.UserTMELogin,
+    auth_service: AuthService = Depends(Provide[Container.auth_service]),
 ) -> dto.JWTokens | None:
     strategy = TelegramAuthStrategy()
     try:
@@ -93,10 +92,10 @@ async def signin_telegram(
 )
 @inject
 async def login(
-        user_in: dto.UserLogin,
-        request: Request,
-        response: Response,
-        auth_service: AuthService = Depends(Provide[Container.auth_service]),
+    user_in: dto.UserLogin,
+    request: Request,
+    response: Response,
+    auth_service: AuthService = Depends(Provide[Container.auth_service]),
 ) -> dto.JWTokens | None:
     strategy = DefaultAuthStrategy()
     try:
@@ -119,10 +118,7 @@ async def login(
     summary="Write out new pair of jwt tokens",
     status_code=status.HTTP_200_OK,
 )
-async def refresh_token(
-        request: Request,
-        response: Response
-) -> dto.JWTokens:
+async def refresh_token(request: Request, response: Response) -> dto.JWTokens:
     return await refresh_tokens(
         request=request,
         response=response,
@@ -135,7 +131,7 @@ async def refresh_token(
     status_code=status.HTTP_200_OK,
 )
 async def verify_token(
-        request: Request,
+    request: Request,
 ) -> bool:
     return await verify_token_from_request(
         request=request,
@@ -148,24 +144,20 @@ async def verify_token(
 )
 @inject
 async def reset_password(
-        request: Request,
-        password_in: dto.ResetPassword,
-        current_user: Annotated[models.User, Depends(get_current_user)],
-        auth_service: AuthService = Depends(Provide[Container.auth_service]),
-        blacklist_service: JTIRedisStorage = Depends(Provide[Container.blacklist_service])
+    request: Request,
+    password_in: dto.ResetPassword,
+    current_user: Annotated[models.User, Depends(get_current_user)],
+    auth_service: AuthService = Depends(Provide[Container.auth_service]),
+    blacklist_service: JTIRedisStorage = Depends(Provide[Container.blacklist_service]),
 ) -> Response:
     await revoke_tokens(request=request, blacklist_service=blacklist_service)
     await auth_service.reset_password(pk=current_user.id, password_in=password_in)
     return Response(status_code=status.HTTP_200_OK, content="Password was updating")
 
 
-@auth_router.post(
-    "/logout/",
-    summary="Logout from  the current session",
-    status_code=status.HTTP_204_NO_CONTENT
-)
+@auth_router.post("/logout/", summary="Logout from  the current session", status_code=status.HTTP_204_NO_CONTENT)
 async def logout(
-        response: Response,
+    response: Response,
 ) -> None:
     JWTService.unset_cookies(
         response=response,

@@ -14,7 +14,6 @@ from fastapi.responses import (
 from pydantic import (
     BaseModel,
 )
-
 from src.presentation.api.providers import (
     Container,
 )
@@ -42,7 +41,7 @@ HEALTHCHECK_ERROR = Healthcheck(status="error")
 )
 @inject
 async def healthcheck(
-        config: Config = Depends(Provide[Container.config]),
+    config: Config = Depends(Provide[Container.config]),
 ) -> JSONResponse:
     try:
         db_conn = await asyncpg.create_pool(dsn=config.db.construct_psql_dns())

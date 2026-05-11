@@ -4,8 +4,6 @@ from aiogram.types import (
 )
 
 
-
-
 def add_admins_keyboard() -> InlineKeyboardMarkup:
     markup = InlineKeyboardMarkup()
     add = InlineKeyboardButton(_("*️⃣ Добавить"), callback_data="admin:admins:add")

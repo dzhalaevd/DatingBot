@@ -1,9 +1,6 @@
-import asyncio
 import json
 import logging
-import time
 from pathlib import Path
-from typing import Any
 from urllib.parse import quote
 
 import aiohttp
@@ -58,9 +55,8 @@ async def check_proxy(proxy_url: str, bot_token: str) -> bool:
     try:
         timeout = aiohttp.ClientTimeout(total=8)
 
-        async with aiohttp.ClientSession(timeout=timeout) as session:
-            async with session.get(url, proxy=proxy_url) as resp:
-                return resp.status == 200
+        async with aiohttp.ClientSession(timeout=timeout) as session, session.get(url, proxy=proxy_url) as resp:
+            return resp.status == 200
 
     except Exception:
         return False

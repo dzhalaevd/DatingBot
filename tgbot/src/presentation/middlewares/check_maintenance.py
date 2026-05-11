@@ -1,6 +1,5 @@
 from typing import (
     NoReturn,
-    Union,
 )
 
 from aiogram import (
@@ -12,7 +11,6 @@ from aiogram.dispatcher.handler import (
 from aiogram.dispatcher.middlewares import (
     BaseMiddleware,
 )
-
 from data.config import (
     load_config,
 )
@@ -35,9 +33,7 @@ class IsMaintenance(BaseMiddleware):
         await self.check_tech_works(obj=call)
 
     @staticmethod
-    async def check_tech_works(
-            obj: types.CallbackQuery | types.Message
-    ) -> NoReturn:
+    async def check_tech_works(obj: types.CallbackQuery | types.Message) -> NoReturn:
         text = _("Ведутся технические работы")
         try:
             setting = await db_commands.select_setting_tech_work()

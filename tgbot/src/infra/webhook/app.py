@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-
 from bot import create_bot, create_dispatcher, on_shutdown, on_startup
 from config import load_config
+from fastapi import FastAPI
+
 from .router import webhook_router
 
 

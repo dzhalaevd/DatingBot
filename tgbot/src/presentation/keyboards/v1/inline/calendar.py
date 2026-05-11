@@ -1,4 +1,5 @@
 import calendar
+import locale
 from contextlib import (
     suppress,
 )
@@ -6,7 +7,6 @@ from datetime import (
     datetime,
     timedelta,
 )
-import locale
 
 from aiogram.types import (
     CallbackQuery,
@@ -43,44 +43,31 @@ calendar.month_name = [
     "декабрь",
 ]
 
-CANCEL = InlineKeyboardButton(
-    text="⛔️ отмена", callback_data=search_cb.new(action="cancel")
-)
+CANCEL = InlineKeyboardButton(text="⛔️ отмена", callback_data=search_cb.new(action="cancel"))
 
 
 class SimpleCalendar:
     def start_calendar(
-            self, year: int = datetime.now().year, month: int = datetime.now().month
+        self, year: int = datetime.now().year, month: int = datetime.now().month
     ) -> InlineKeyboardMarkup:
-        """
-        Create an inline keyboard with the provided year and month.
+        """Create an inline keyboard with the provided year and month.
 
         :param int year: Year to use in the calendar, if None the current year is used.
         :param int month: Month to use in the calendar, if None the current month is used.
         :return: Returns InlineKeyboardMarkup object with the calendar.
         """
         inline_kb = InlineKeyboardMarkup(row_width=7)
-        ignore_callback = calendar_callback.new(
-            "IGNORE", year, month, 0
-        )  # for buttons with no answer
+        ignore_callback = calendar_callback.new("IGNORE", year, month, 0)  # for buttons with no answer
         # First row - Month and Year
         inline_kb.row()
+        inline_kb.insert(InlineKeyboardButton("<<", callback_data=calendar_callback.new("PREV-YEAR", year, month, 1)))
         inline_kb.insert(
             InlineKeyboardButton(
-                "<<", callback_data=calendar_callback.new("PREV-YEAR", year, month, 1)
-            )
-        )
-        inline_kb.insert(
-            InlineKeyboardButton(
-                f"{calendar.month_name[month]} {str(year)}",
+                f"{calendar.month_name[month]} {year!s}",
                 callback_data=ignore_callback,
             )
         )
-        inline_kb.insert(
-            InlineKeyboardButton(
-                ">>", callback_data=calendar_callback.new("NEXT-YEAR", year, month, 1)
-            )
-        )
+        inline_kb.insert(InlineKeyboardButton(">>", callback_data=calendar_callback.new("NEXT-YEAR", year, month, 1)))
         # Second row - Week Days
         inline_kb.row()
         for day in _WEEK_DAYS:
@@ -92,9 +79,7 @@ class SimpleCalendar:
             inline_kb.row()
             for day in week:
                 if day == 0:
-                    inline_kb.insert(
-                        InlineKeyboardButton(" ", callback_data=ignore_callback)
-                    )
+                    inline_kb.insert(InlineKeyboardButton(" ", callback_data=ignore_callback))
                     continue
                 now = datetime.now()
                 if day == now.day and month == now.month and year == now.year:
@@ -108,31 +93,20 @@ class SimpleCalendar:
 
         # Last row - Buttons
         inline_kb.row()
-        inline_kb.insert(
-            InlineKeyboardButton(
-                "<", callback_data=calendar_callback.new("PREV-MONTH", year, month, day)
-            )
-        )
+        inline_kb.insert(InlineKeyboardButton("<", callback_data=calendar_callback.new("PREV-MONTH", year, month, day)))
         inline_kb.insert(
             InlineKeyboardButton(
                 "Today",
                 callback_data=calendar_callback.new("CURR-MONTH", year, month, day),
             )
         )
-        inline_kb.insert(
-            InlineKeyboardButton(
-                ">", callback_data=calendar_callback.new("NEXT-MONTH", year, month, day)
-            )
-        )
+        inline_kb.insert(InlineKeyboardButton(">", callback_data=calendar_callback.new("NEXT-MONTH", year, month, day)))
         inline_kb.add(CANCEL)
 
         return inline_kb
 
-    def process_selection(
-            self, query: CallbackQuery, data: CallbackData
-    ) -> tuple:
-        """
-        Process the callback_query.
+    def process_selection(self, query: CallbackQuery, data: CallbackData) -> tuple:
+        """Process the callback_query.
 
         This method generates a new calendar if forward or backward is pressed.
         This method should be called inside a CallbackQueryHandler.
@@ -151,40 +125,28 @@ class SimpleCalendar:
         if data["act"] == "DAY":
             await query.message.delete_reply_markup()  # removing inline keyboard
             day = data["day"].strip("•").strip()
-            return_data = True, datetime(
-                int(data["year"]), int(data["month"]), int(day)
-            )
+            return_data = True, datetime(int(data["year"]), int(data["month"]), int(day))
         # user navigates to previous year, editing message with new calendar
         if data["act"] == "PREV-YEAR":
             prev_date = temp_date - timedelta(days=365)
-            await query.message.edit_reply_markup(
-                await self.start_calendar(int(prev_date.year), int(prev_date.month))
-            )
+            await query.message.edit_reply_markup(await self.start_calendar(int(prev_date.year), int(prev_date.month)))
         # user navigates to next year, editing message with new calendar
         if data["act"] == "NEXT-YEAR":
             next_date = temp_date + timedelta(days=365)
-            await query.message.edit_reply_markup(
-                await self.start_calendar(int(next_date.year), int(next_date.month))
-            )
+            await query.message.edit_reply_markup(await self.start_calendar(int(next_date.year), int(next_date.month)))
         # user navigates to previous month, editing message with new calendar
         if data["act"] == "PREV-MONTH":
             prev_date = temp_date - timedelta(days=1)
-            await query.message.edit_reply_markup(
-                await self.start_calendar(int(prev_date.year), int(prev_date.month))
-            )
+            await query.message.edit_reply_markup(await self.start_calendar(int(prev_date.year), int(prev_date.month)))
         # user navigates to next month, editing message with new calendar
         if data["act"] == "NEXT-MONTH":
             next_date = temp_date + timedelta(days=31)
-            await query.message.edit_reply_markup(
-                await self.start_calendar(int(next_date.year), int(next_date.month))
-            )
+            await query.message.edit_reply_markup(await self.start_calendar(int(next_date.year), int(next_date.month)))
         if data["act"] == "CURR-MONTH":
             next_date = datetime.now()
             with suppress(MessageNotModified):
                 await query.answer()
-                await query.message.edit_reply_markup(
-                    await self.start_calendar(next_date.year, next_date.month)
-                )
+                await query.message.edit_reply_markup(await self.start_calendar(next_date.year, next_date.month))
 
         # at some point user clicks DAY button, returning date
         return return_data

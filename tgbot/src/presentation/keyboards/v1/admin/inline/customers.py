@@ -6,16 +6,12 @@ from aiogram.utils.callback_data import (
     CallbackData,
 )
 
-
-
 manipulation_callback = CallbackData("user_callback", "action", "value")
 
 
 def user_manipulation() -> InlineKeyboardMarkup:
     markup = InlineKeyboardMarkup(row_width=1)
-    find_user = InlineKeyboardButton(
-        _("🔍 Найти пользователя"), callback_data="db:search_user"
-    )
+    find_user = InlineKeyboardButton(_("🔍 Найти пользователя"), callback_data="db:search_user")
     markup.add(find_user)
     return markup
 

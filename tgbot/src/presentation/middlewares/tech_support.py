@@ -8,20 +8,13 @@ from aiogram import (
 from aiogram.types import (
     TelegramObject,
 )
-
 from bot_types import (
     Handler,
 )
 
 
 class SupportMiddleware(BaseMiddleware):
-
-    async def __call__(
-            self,
-            handler: Handler,
-            event: TelegramObject,
-            data: dict[str, Any]
-    ) -> Any:
+    async def __call__(self, handler: Handler, event: TelegramObject, data: dict[str, Any]) -> Any:
         pass
         # dispatcher = Dispatcher.get_current()
         # state = dispatcher.current_state(

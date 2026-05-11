@@ -1,9 +1,7 @@
+from collections.abc import Awaitable, Callable
 from typing import (
     Any,
-    Dict,
 )
-
-from collections.abc import Awaitable, Callable
 
 from aiogram.dispatcher.middlewares import (
     BaseMiddleware,
@@ -22,10 +20,10 @@ class SchedulerMiddleware(BaseMiddleware):
         self.scheduler = scheduler
 
     def __call__(
-            self,
-            handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
-            event: TelegramObject,
-            data: dict[str, Any],
+        self,
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
+        event: TelegramObject,
+        data: dict[str, Any],
     ) -> Any:
         data["appscheduler"] = self.scheduler
         return handler(event, data)

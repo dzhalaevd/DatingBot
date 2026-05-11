@@ -19,9 +19,9 @@ from .user import (
 
 __all__ = (
     "auth_router",
-    "user_router",
-    "role_router",
     "healthcheck_router",
-    "profile_router",
     "photo_router",
+    "profile_router",
+    "role_router",
+    "user_router",
 )

@@ -15,10 +15,10 @@ from starlette_exporter import (
 from .api import (
     auth_router,
     healthcheck_router,
+    photo_router,
+    profile_router,
     role_router,
     user_router,
-    profile_router,
-    photo_router,
 )
 from .api.middlewares import (
     logging_middleware,
@@ -31,30 +31,35 @@ from .api.providers import (
 def setup_routes(app: FastAPI) -> None:
     prefix: str = "/api/v1"
     app.include_router(
-        router=auth_router, prefix=f"{prefix}/auth", tags=["Authorization"],
+        router=auth_router,
+        prefix=f"{prefix}/auth",
+        tags=["Authorization"],
     )
     app.include_router(
-        router=user_router, prefix=f"{prefix}/users", tags=["User"],
+        router=user_router,
+        prefix=f"{prefix}/users",
+        tags=["User"],
     )
     app.include_router(
-        router=role_router, prefix=f"{prefix}/roles", tags=["Role"],
+        router=role_router,
+        prefix=f"{prefix}/roles",
+        tags=["Role"],
     )
     app.include_router(
-        router=healthcheck_router, prefix=f"{prefix}/healthcheck", tags=["Healthcheck"],
+        router=healthcheck_router,
+        prefix=f"{prefix}/healthcheck",
+        tags=["Healthcheck"],
     )
-    app.include_router(
-        router=profile_router, prefix=f"{prefix}/profiles", tags=["Profile"]
-    )
-    app.include_router(
-        router=photo_router, prefix=f"{prefix}/photos", tags=["Photo"]
-    )
+    app.include_router(router=profile_router, prefix=f"{prefix}/profiles", tags=["Profile"])
+    app.include_router(router=photo_router, prefix=f"{prefix}/photos", tags=["Photo"])
     app.add_route("/metrics", handle_metrics)
 
 
 # noinspection PyTypeChecker
 def setup_middlewares(app: FastAPI) -> None:
     app.add_middleware(
-        BaseHTTPMiddleware, dispatch=logging_middleware,
+        BaseHTTPMiddleware,
+        dispatch=logging_middleware,
     )
     app.add_middleware(
         CORSMiddleware,
@@ -67,8 +72,4 @@ def setup_middlewares(app: FastAPI) -> None:
     app.add_middleware(PrometheusMiddleware)
 
 
-__all__ = (
-    "setup_middlewares",
-    "setup_routes",
-    "Container"
-)
+__all__ = ("Container", "setup_middlewares", "setup_routes")

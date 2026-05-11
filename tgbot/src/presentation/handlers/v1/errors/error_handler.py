@@ -10,7 +10,6 @@ from aiogram.utils.exceptions import (
     TelegramAPIError,
     Unauthorized,
 )
-
 from loader import (
     dp,
 )
@@ -18,29 +17,16 @@ from loader import (
 
 @dp.errors_handler()
 async def errors_handler(update, exception):
-    if isinstance(exception, CantDemoteChatCreator):
-        return True
-
-    elif isinstance(exception, MessageNotModified):
-        return True
-    elif isinstance(exception, MessageCantBeDeleted):
-        return True
-
-    elif isinstance(exception, MessageToDeleteNotFound):
-        return True
-
-    elif isinstance(exception, MessageTextIsEmpty):
-        return True
-
-    elif isinstance(exception, Unauthorized):
-        return True
-
-    elif isinstance(exception, InvalidQueryID):
-        return True
-
-    elif isinstance(exception, TelegramAPIError):
-        return True
-    elif isinstance(exception, RetryAfter):
-        return True
-    elif isinstance(exception, CantParseEntities):
+    if (
+        isinstance(exception, CantDemoteChatCreator)
+        or isinstance(exception, MessageNotModified)
+        or isinstance(exception, MessageCantBeDeleted)
+        or isinstance(exception, MessageToDeleteNotFound)
+        or isinstance(exception, MessageTextIsEmpty)
+        or isinstance(exception, Unauthorized)
+        or isinstance(exception, InvalidQueryID)
+        or isinstance(exception, TelegramAPIError)
+        or isinstance(exception, RetryAfter)
+        or isinstance(exception, CantParseEntities)
+    ):
         return True

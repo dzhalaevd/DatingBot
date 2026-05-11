@@ -4,8 +4,6 @@ from aiogram.types import (
 )
 
 
-
-
 def contact_keyboard() -> ReplyKeyboardMarkup:
     markup = ReplyKeyboardMarkup(resize_keyboard=True)
     first_button = KeyboardButton(text=_("📱 Отправить"), request_contact=True)

@@ -4,8 +4,6 @@ from aiogram.types import (
 )
 
 
-
-
 def admin_keyboard() -> ReplyKeyboardMarkup:
     markup = ReplyKeyboardMarkup(resize_keyboard=True)
     mailing = KeyboardButton(text=_("Рассылка"))

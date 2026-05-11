@@ -1,8 +1,4 @@
 import random
-from typing import (
-    Optional,
-    Union,
-)
 
 from aiogram.types import (
     InlineKeyboardButton,
@@ -11,7 +7,6 @@ from aiogram.types import (
 from aiogram.utils.callback_data import (
     CallbackData,
 )
-
 from data.config import (
     load_config,
 )
@@ -28,9 +23,8 @@ def check_support_available(support_id) -> int | None:
     state = dp.current_state(chat=support_id, user=support_id)
     state_str = str(await state.get_state())
     if state_str == "in_support":
-        return
-    else:
-        return support_id
+        return None
+    return support_id
 
 
 def get_support_manager() -> int | None:
@@ -39,8 +33,7 @@ def get_support_manager() -> int | None:
         support_id = await check_support_available(support_id)
         if support_id:
             return support_id
-    else:
-        return
+    return None
 
 
 def support_keyboard(messages, user_id=None) -> bool | InlineKeyboardMarkup:
@@ -61,9 +54,7 @@ def support_keyboard(messages, user_id=None) -> bool | InlineKeyboardMarkup:
     keyboard.add(
         InlineKeyboardButton(
             text=text,
-            callback_data=support_callback.new(
-                messages=messages, user_id=contact_id, as_user=as_user
-            ),
+            callback_data=support_callback.new(messages=messages, user_id=contact_id, as_user=as_user),
         )
     )
 

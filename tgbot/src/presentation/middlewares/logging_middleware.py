@@ -4,7 +4,6 @@ from aiogram import (
 from aiogram.dispatcher.middlewares import (
     BaseMiddleware,
 )
-
 from loader import (
     logger,
 )

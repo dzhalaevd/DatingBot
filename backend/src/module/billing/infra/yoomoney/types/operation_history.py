@@ -12,8 +12,7 @@ from pydantic import (
 
 
 class Operation(BaseModel):
-    """
-    Описание платежной операции.
+    """Описание платежной операции.
 
     https://yoomoney.ru/docs/wallet/user-account/operation-history#response-operation
     """
@@ -23,7 +22,7 @@ class Operation(BaseModel):
     execution_datetime: datetime = Field(alias="datetime")
     title: str
     pattern_id: str | None
-    direction: Literal["in"] | Literal["out"]
+    direction: Literal["in", "out"]
     amount: int
     label: str | None
     operation_type: str = Field(alias="type")

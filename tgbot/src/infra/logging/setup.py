@@ -8,8 +8,8 @@ from .processors import get_render_processor
 
 
 def configure_logging(
-        log_level: int = logging.INFO,
-        render_json_logs: bool = False,
+    log_level: int = logging.INFO,
+    render_json_logs: bool = False,
 ) -> None:
     """Настраивает систему логирования приложения.
 

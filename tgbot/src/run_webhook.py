@@ -1,7 +1,6 @@
 import asyncio
 
 import uvicorn
-
 from infra.webhook.app import create_app
 
 

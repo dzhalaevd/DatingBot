@@ -1,5 +1,8 @@
 import pytest
-
+from config import (
+    Miscellaneous,
+    load_config,
+)
 from telethon import (
     TelegramClient,
 )
@@ -8,11 +11,6 @@ from telethon.sessions import (
 )
 from telethon.tl.custom import (
     Conversation,
-)
-
-from config import (
-    Miscellaneous,
-    load_config,
 )
 
 cfg = load_config()
@@ -30,12 +28,7 @@ def anyio_backend() -> str:
 
 @pytest.fixture(scope="session")
 async def conv(config: Miscellaneous) -> Conversation:
-    client = TelegramClient(
-        StringSession(config.session_str),
-        config.api_id,
-        config.api_hash,
-        sequential_updates=True
-    )
+    client = TelegramClient(StringSession(config.session_str), config.api_id, config.api_hash, sequential_updates=True)
     await client.connect()
     async with client.conversation("@TestingDatingbottestbot", timeout=5) as conv:
         yield conv

@@ -4,23 +4,19 @@ from uuid import UUID
 import orjson
 import structlog
 
-from .types import SerializerType, ProcessorType
+from .types import ProcessorType, SerializerType
 
 
 def make_json_safe(data: Any) -> Any:
     if isinstance(data, dict):
-        return {
-            str(k): make_json_safe(v)
-            for k, v in data.items()
-        }
-    elif isinstance(data, (list, tuple, set)):
+        return {str(k): make_json_safe(v) for k, v in data.items()}
+    if isinstance(data, (list, tuple, set)):
         return [make_json_safe(v) for v in data]
-    elif isinstance(data, bytes):
+    if isinstance(data, bytes):
         return data.decode(errors="ignore")
-    elif isinstance(data, (str, int, float, bool)) or data is None:
+    if isinstance(data, (str, int, float, bool)) or data is None:
         return data
-    else:
-        return str(data)
+    return str(data)
 
 
 def additionally_serialize(obj: object) -> Any:
@@ -38,10 +34,10 @@ def serialize_to_json(data: Any) -> str:
 
 
 def get_render_processor(
-        serializer: SerializerType = serialize_to_json,
-        *,
-        render_json_logs: bool = False,
-        colors: bool = True,
+    serializer: SerializerType = serialize_to_json,
+    *,
+    render_json_logs: bool = False,
+    colors: bool = True,
 ) -> ProcessorType:
     if render_json_logs:
         return structlog.processors.JSONRenderer(serializer=serializer)

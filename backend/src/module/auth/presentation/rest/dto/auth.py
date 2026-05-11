@@ -25,14 +25,13 @@ class JWTokens(BaseModel):
         from_attributes=True,
         json_schema_extra={
             "example": {
-                "access_token":
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ikp"
-                    "vaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+                "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ikp"
+                "vaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
                 "refresh_token": "eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9l"
-                                 "IiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.bQTnz6AuMJvmXXQsVPrxeQNvzDkimo7VNXxHeSBfC"
-                                 "lLufmCVZRUuyTwJF311JHuh",
+                "IiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.bQTnz6AuMJvmXXQsVPrxeQNvzDkimo7VNXxHeSBfC"
+                "lLufmCVZRUuyTwJF311JHuh",
             }
-        }
+        },
     )
 
 
@@ -53,7 +52,7 @@ class UserRegistration(BaseModel):
                 "password": None,
                 "telegram_id": 1234567890,
             }
-        }
+        },
     )
 
     @field_validator("username")
@@ -61,8 +60,7 @@ class UserRegistration(BaseModel):
         match_pattern = re.compile(r"^[a-zA-Z0-9\-]+$")
         if not match_pattern.match(value):
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Name should contains only letters"
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Name should contains only letters"
             )
         return value
 
@@ -72,31 +70,31 @@ class UserRegistration(BaseModel):
             return value
         if len(value) < 8:
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Password should be at least 8 characters long"
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Password should be at least 8 characters long"
             )
         if value.islower() or value.isupper():
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Password should contain both uppercase and lowercase letters"
+                detail="Password should contain both uppercase and lowercase letters",
             )
         if value.isalnum():
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Password should contain at least one special character"
+                detail="Password should contain at least one special character",
             )
         return value
 
 
 class UserLogin(HTTPBasicCredentials):
-    """
-    Attributes
+    """Attributes
     ----------
     username : str
     password : str
     telegram_id : Optional[int]
         Used only in telegram bot, when user has telegram_id, and we are using it for only saving
+
     """
+
     telegram_id: int | None = None
 
 
@@ -113,9 +111,9 @@ class UserTMELogin(BaseModel):
                 "telegram_id": 1234567890,
                 "signature": "ea11face3d4cd1b13dd164216c336caf2dadf7db9438faa833d215e24493f6f6",
                 "nonce": 415238,
-                "timestamp": 1712868243
+                "timestamp": 1712868243,
             }
-        }
+        },
     )
 
 
@@ -138,26 +136,24 @@ class ResetPassword(BaseModel):
             return value
         if len(value) < 8:
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Password should be at least 8 characters long"
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Password should be at least 8 characters long"
             )
         if value.islower() or value.isupper():
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Password should contain both uppercase and lowercase letters"
+                detail="Password should contain both uppercase and lowercase letters",
             )
         if value.isalnum():
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Password should contain at least one special character"
+                detail="Password should contain at least one special character",
             )
         return value
 
-    @field_validator('repeat_password')
+    @field_validator("repeat_password")
     def repeat_password_must_match_new_password(cls, value: str, values: ValidationInfo) -> str | None:
         if value != values.data.get("new_password"):
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail='New password and repeat password must match'
+                status_code=status.HTTP_400_BAD_REQUEST, detail="New password and repeat password must match"
             )
         return value

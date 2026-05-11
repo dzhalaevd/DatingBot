@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Request, HTTPException
 from aiogram.types import Update
+from fastapi import APIRouter, HTTPException, Request
 
 webhook_router = APIRouter()
 

@@ -24,9 +24,7 @@ async def authorize_app(client_id, redirect_uri, app_permissions: list[str, ...]
     print(f"Перейдите по URL и подтвердите доступ для приложения\n{response.url}")
     code = input("Введите код в консоль >  ").strip()
 
-    get_token_url = GET_TOKEN_URL.format(
-        code=code, client_id=client_id, redirect_uri=redirect_uri
-    )
+    get_token_url = GET_TOKEN_URL.format(code=code, client_id=client_id, redirect_uri=redirect_uri)
     _, data = await send_request(get_token_url)
 
     access_token = data.get("access_token")

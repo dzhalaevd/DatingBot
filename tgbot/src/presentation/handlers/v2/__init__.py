@@ -3,10 +3,7 @@ from .echo import (
 )
 
 routers_list = [
-
     echo_router,  # must be last one
 ]
 
-__all__ = (
-    "routers_list",
-)
+__all__ = ("routers_list",)

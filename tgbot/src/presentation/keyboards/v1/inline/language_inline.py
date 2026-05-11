@@ -4,8 +4,6 @@ from aiogram.types import (
 )
 
 
-
-
 def language_keyboard(menu: str) -> InlineKeyboardMarkup:
     menu_back_buttons = {
         "registration": "back_to_reg_menu",
@@ -21,8 +19,6 @@ def language_keyboard(menu: str) -> InlineKeyboardMarkup:
     markup.row(eng, ind)
     back_button = menu_back_buttons.get(menu)
     if back_button:
-        back = InlineKeyboardButton(
-            text=_("⏪️ Вернуться в меню"), callback_data=back_button
-        )
+        back = InlineKeyboardButton(text=_("⏪️ Вернуться в меню"), callback_data=back_button)
         markup.add(back)
     return markup

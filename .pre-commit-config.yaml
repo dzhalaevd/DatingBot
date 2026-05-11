@@ -45,56 +45,21 @@ repos:
         pass_filenames: false
         files: ^frontend/.*\.(ts|tsx)$
 
-  # Backend
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.14
     hooks:
       - id: ruff-format
-        name: backend ruff format
-        files: ^backend/.*\.py$
-        args: [ --config=backend/ruff.toml ]
 
       - id: ruff-check
-        name: backend ruff check
-        files: ^backend/.*\.py$
-        args: [ --fix, --config=backend/ruff.toml ]
+        args: [ --fix ]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.18.2
     hooks:
       - id: mypy
-        name: backend mypy
-        files: ^backend/.*\.py$
-        args:
-          - --config-file=backend/mypy.ini
         additional_dependencies:
-          - types-requests
-          - types-python-dateutil
-          - types-PyYAML
-
-  # TgBot
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.14
-    hooks:
-      - id: ruff-format
-        name: tgbot ruff format
-        files: ^tgbot/.*\.py$
-        args: [ --config=tgbot/ruff.toml ]
-
-      - id: ruff-check
-        name: tgbot ruff check
-        files: ^tgbot/.*\.py$
-        args: [ --fix, --config=tgbot/ruff.toml ]
-
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.18.2
-    hooks:
-      - id: mypy
-        name: tgbot mypy
-        files: ^tgbot/.*\.py$
-        args:
-          - --config-file=tgbot/mypy.ini
-        additional_dependencies:
+          - pydantic
           - types-requests
           - types-python-dateutil
           - types-PyYAML

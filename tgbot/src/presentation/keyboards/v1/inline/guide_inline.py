@@ -6,14 +6,10 @@ from aiogram.utils.callback_data import (
     CallbackData,
 )
 
-
-
 guide_callback = CallbackData("guide_callback", "action", "value")
 
 
-def create_pagination_keyboard(
-        step: int, total_steps: int
-) -> InlineKeyboardMarkup:
+def create_pagination_keyboard(step: int, total_steps: int) -> InlineKeyboardMarkup:
     markup = InlineKeyboardMarkup()
     if step > 1:
         backward = InlineKeyboardButton(

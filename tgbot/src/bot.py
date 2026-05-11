@@ -1,9 +1,6 @@
-from config import Config
-from presentation.handlers.v2 import routers_list
-from presentation.services import broadcaster, set_default_commands
-from proxy_pool import create_aiogram_session
-
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from aiogram.fsm.storage.base import BaseStorage
 from aiogram.fsm.storage.memory import (
     MemoryStorage,
@@ -12,14 +9,12 @@ from aiogram.fsm.storage.redis import (
     DefaultKeyBuilder,
     RedisStorage,
 )
-from aiogram.client.default import DefaultBotProperties
-from aiogram.enums import ParseMode
+from config import Config
+from presentation.handlers.v2 import routers_list
+from presentation.services import broadcaster, set_default_commands
+from proxy_pool import create_aiogram_session
 
-defaults = DefaultBotProperties(
-    parse_mode=ParseMode.HTML,
-    protect_content=True,
-    link_preview_is_disabled=True
-)
+defaults = DefaultBotProperties(parse_mode=ParseMode.HTML, protect_content=True, link_preview_is_disabled=True)
 
 
 async def on_startup(bot: Bot, admin_ids: list[int]) -> None:
@@ -60,18 +55,13 @@ def get_storage(config) -> BaseStorage:
             config.redis.dsn(),
             key_builder=DefaultKeyBuilder(with_bot_id=True, with_destiny=True),
         )
-    else:
-        return MemoryStorage()
+    return MemoryStorage()
 
 
 async def create_bot(config: Config) -> Bot:
     session = await create_aiogram_session(config.tg_bot.token)
 
-    return Bot(
-        session=session,
-        token=config.tg_bot.token,
-        default=defaults
-    )
+    return Bot(session=session, token=config.tg_bot.token, default=defaults)
 
 
 def create_dispatcher(config: Config) -> Dispatcher:

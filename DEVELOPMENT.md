@@ -116,7 +116,7 @@ Run the following commands to set up the Django application:
 $ python django_app.py makemigrations
 $ python django_app.py migrate
 $ python django_app.py createsuperuser
-$ python django_app.py makemigrations usersmanage 
+$ python django_app.py makemigrations usersmanage
 $ python django_app.py migrate usersmanage
 $ python django_app.py runserver
 ```
