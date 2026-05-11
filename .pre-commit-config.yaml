@@ -1,0 +1,108 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-xml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-added-large-files
+      - id: detect-private-key
+      - id: debug-statements
+        files: ^(backend|tgbot)/.*\.py$
+      - id: check-ast
+        files: ^(backend|tgbot)/.*\.py$
+      - id: no-commit-to-branch
+        args: [ --branch=main ]
+
+  # Frontend
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        files: ^frontend/.*\.(ts|tsx|js|jsx|json|css|md|yml|yaml)$
+        additional_dependencies:
+          - prettier
+          - prettier-plugin-tailwindcss
+
+  - repo: local
+    hooks:
+      - id: frontend-eslint
+        name: frontend eslint
+        entry: bash -c "cd frontend && npm run lint:fix"
+        language: system
+        pass_filenames: false
+        files: ^frontend/.*\.(ts|tsx|js|jsx)$
+
+      - id: frontend-typecheck
+        name: frontend typecheck
+        entry: bash -c "cd frontend && npm run typecheck"
+        language: system
+        pass_filenames: false
+        files: ^frontend/.*\.(ts|tsx)$
+
+  # Backend
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.14
+    hooks:
+      - id: ruff-format
+        name: backend ruff format
+        files: ^backend/.*\.py$
+        args: [ --config=backend/ruff.toml ]
+
+      - id: ruff-check
+        name: backend ruff check
+        files: ^backend/.*\.py$
+        args: [ --fix, --config=backend/ruff.toml ]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2
+    hooks:
+      - id: mypy
+        name: backend mypy
+        files: ^backend/.*\.py$
+        args:
+          - --config-file=backend/mypy.ini
+        additional_dependencies:
+          - types-requests
+          - types-python-dateutil
+          - types-PyYAML
+
+  # TgBot
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.14
+    hooks:
+      - id: ruff-format
+        name: tgbot ruff format
+        files: ^tgbot/.*\.py$
+        args: [ --config=tgbot/ruff.toml ]
+
+      - id: ruff-check
+        name: tgbot ruff check
+        files: ^tgbot/.*\.py$
+        args: [ --fix, --config=tgbot/ruff.toml ]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2
+    hooks:
+      - id: mypy
+        name: tgbot mypy
+        files: ^tgbot/.*\.py$
+        args:
+          - --config-file=tgbot/mypy.ini
+        additional_dependencies:
+          - types-requests
+          - types-python-dateutil
+          - types-PyYAML
+
+  # Dockerfile lint
+  - repo: https://github.com/AleksaC/hadolint-py
+    rev: v2.14.0
+    hooks:
+      - id: hadolint
+        files: (^|/)(Dockerfile|Dockerfile\..*)$
+        args: [ --ignore, DL3025, --ignore, DL3018 ]

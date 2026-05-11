@@ -10,7 +10,7 @@ from telethon.tl.custom import (
     Conversation,
 )
 
-from tgbot.config import (
+from config import (
     Miscellaneous,
     load_config,
 )

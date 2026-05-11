@@ -3,7 +3,7 @@ name = "tgbot"
 version = "1.0.0"
 description = "Dating Telegram Bot with open source code"
 readme = "README.md"
-requires-python = ">=3.11,<4.0"
+requires-python = ">=3.13,<4.0"
 license = "Attribution-NonCommercial 3.0 Unported"
 authors = [
     { name = "David Dzhalaev", email = "72649244+DavidRomanovizc@users.noreply.github.com" }
@@ -41,6 +41,7 @@ dev = [
     "deptry>=0.12.0,<0.13.0",
     "ruff>=0.1.14,<0.2.0",
     "pip-audit>=2.7.0,<3.0.0",
+    "pyupgrade>=3.21.2"
 ]
 
 [tool.black]
@@ -51,10 +52,10 @@ exclude = [
     "django_project/telegrambot/usersmanage/migrations",
     ".git",
 ]
-target-version = ["py311"]
+target-version = ["py313"]
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.13"
 warn_unused_ignores = true
 ignore_missing_imports = true
 strict_optional = false
